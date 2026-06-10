@@ -5,26 +5,24 @@ import sys
 import json
 import os
 
-# CONFIGURAÇÕES
+
 WIDTH, HEIGHT = 1000, 700
 FPS = 60
 GROUND_Y = HEIGHT - 70
 
-# CORES
+
 SKY = (135, 206, 235)
 ENEMY_COLOR = (50, 120, 255)  
 ENEMY_HIT_COLOR = (200, 30, 30)  
 
-# CAMINHOS DE ASSETS
+
 ASSETS_BASE = "assets/base"
-BACKGROUND_IMG = os.path.join(ASSETS_BASE, "ImagemDeFundoDoWindows.jfif")
-PLAYER_IMG = os.path.join(ASSETS_BASE, "logoInternacional.png")
 BACKGROUND_MUSIC = os.path.join(ASSETS_BASE, "HINO DO INTERNACIONAL - golaudio.mp3")
 
-# Variáveis globais para armazenar recursos
+
 background_image = None
 player_image = None
-player_image_attack = None  # versão cinza quando atacando
+player_image_attack = None  
 
 STORY_PARAGRAPHS = [
 	"PRÓLOGO\nApós uma era triste de derrotas não sobrou ninguém para torcer pro Inter...",
@@ -32,7 +30,7 @@ STORY_PARAGRAPHS = [
 	"\nNão tem quase nenhum colorado no mundo. Vague pelo mundo, e converta os gremistas."
 ]
 
-# Função para carregar e redimensionar imagem
+
 def load_image(path, width, height):
 	"""Carrega uma imagem e redimensiona para o tamanho especificado"""
 	if not os.path.exists(path):
@@ -46,7 +44,7 @@ def load_image(path, width, height):
 		print(f"⚠️ Erro ao carregar imagem {path}: {e}")
 		return None
 
-# Função para criar versão cinza de uma imagem (para ataque)
+
 def grayscale_image(image):
 	"""Converte uma imagem para escala de cinza"""
 	if image is None:
@@ -76,7 +74,7 @@ class Player:
 
 	def update(self, keys):
 		dx = 0
-		# Movimento: D para frente, A para trás
+		
 		if keys[pygame.K_d]:
 			dx = self.speed
 			self.facing = 1
@@ -95,13 +93,13 @@ class Player:
 	def draw(self, surf):
 		"""Desenha o jogador. Cinza quando atacando, normal caso contrário"""
 		if self.attack_timer > 0:
-			# Mostra imagem em cinza durante ataque
+			
 			if self.image_gray:
 				surf.blit(self.image_gray, (self.x - self.w // 2, self.y - self.h))
 			else:
 				pygame.draw.circle(surf, (100, 100, 100), (int(self.x), int(self.y) - 10), 10)
 		else:
-			# Mostra imagem normal
+		
 			if self.image:
 				surf.blit(self.image, (self.x - self.w // 2, self.y - self.h))
 			else:
@@ -129,7 +127,7 @@ class Enemy:
 		pygame.draw.rect(surf, color, self.rect())
 
 
-# Leaderboard system
+
 SCORES_FILE = "leaderboard.json"
 
 def load_scores():
@@ -162,12 +160,9 @@ def main():
 	clock = pygame.time.Clock()
 	font = pygame.font.SysFont(None, 24)
 	
-	# Carrega recursos de assets/base
-	background_image = load_image(BACKGROUND_IMG, WIDTH, HEIGHT)
-	player_image = load_image(PLAYER_IMG, 34, 48)
 	player_image_attack = grayscale_image(player_image)
 	
-	# Tenta carregar a música de fundo
+	
 	music_loaded = False
 	if os.path.exists(BACKGROUND_MUSIC):
 		try:
@@ -183,7 +178,7 @@ def main():
 		title = pygame.font.SysFont(None, 40).render('Pressione qualquer tecla para continuar', True, (30, 30, 30))
 		screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT - 80))
 
-		# render story paragraphs with hashtags so you can edit them in the code
+		
 		y = 40
 		small = pygame.font.SysFont(None, 22)
 		for p in STORY_PARAGRAPHS:
@@ -236,7 +231,7 @@ def main():
 		small = pygame.font.SysFont(None, 28)
 		tiny = pygame.font.SysFont(None, 20)
 		
-		# ask for player name (3 characters max)
+		
 		name = ""
 		entering_name = True
 		while entering_name:
@@ -306,22 +301,22 @@ def main():
 				if e.type == pygame.KEYDOWN or e.type == pygame.MOUSEBUTTONDOWN:
 					waiting = False
 
-	# show leaderboard antes de qualquer coisa
+	
 	show_leaderboard(screen)
 
-	# outer loop to allow restart
+	
 	while True:
-		# initial state
+		
 		player = Player(player_image, player_image_attack)
 		enemies = []
 		spawn_timer = 60
 		bg_offset = 0
 		score = 0
 
-		# show story/start screen
+		
 		show_start_screen()
 
-		# Toca a música de fundo em loop
+		
 		if music_loaded:
 			pygame.mixer.music.play(-1)
 
@@ -340,10 +335,10 @@ def main():
 					if event.key == pygame.K_ESCAPE:
 						pygame.quit()
 						sys.exit()
-					# Pause: tecla ESPAÇO
+					
 					if event.key == pygame.K_SPACE:
 						show_pause_screen(screen)
-					# Attack: tecla O
+				
 					if event.key == pygame.K_o:
 						player.attack_timer = 10
 
@@ -362,7 +357,7 @@ def main():
 			for e in enemies:
 				e.update(dx)
 
-			# collisions
+			
 			if player.attack_timer > 0:
 				ar = player.attack_rect()
 				for e in enemies:
@@ -373,19 +368,18 @@ def main():
 
 			player_dead = False
 			for e in enemies:
-				# toque de inimigo azul (não atingido) é fatal instantâneo
+				
 				if not e.dead and not e.hit and e.rect().colliderect(player.rect()):
 					player_dead = True
 					break
 
 			enemies = [e for e in enemies if not (e.dead and e.x < -100)]
 
-			# RENDERIZAÇÃO
+			
 			if background_image:
 				screen.blit(background_image, (0, 0))
 			else:
-				screen.fill((135, 206, 235))  # Fallback: céu azul
-
+				screen.fill((135, 206, 235))  
 			for e in enemies:
 				e.draw(screen)
 
@@ -394,7 +388,7 @@ def main():
 			hud = font.render(f'Score: {score}', True, (20, 20, 20))
 			screen.blit(hud, (10, 10))
 			
-			# mensagem de pausa no canto inferior direito
+			
 			small_font = pygame.font.SysFont(None, 18)
 			pause_msg = small_font.render('Aperte ESPAÇO para pausar', True, (100, 100, 100))
 			screen.blit(pause_msg, (WIDTH - pause_msg.get_width() - 10, HEIGHT - pause_msg.get_height() - 10))
@@ -402,17 +396,17 @@ def main():
 			pygame.display.flip()
 
 			if player_dead:
-				# Para a música quando o jogador morre
+				
 				pygame.mixer.music.stop()
 				
-				# Toca a mesma música como som de game over (sem loop)
+				
 				if music_loaded:
-					pygame.mixer.music.play(0)  # 0 = toca uma vez
+					pygame.mixer.music.play(0)  
 				
 				player_name = show_game_over(screen, score)
 				add_score(player_name, score)
 				
-				# ask for restart
+				
 				restart_screen = True
 				while restart_screen:
 					screen.fill((30, 30, 30))
@@ -437,7 +431,7 @@ def main():
 								pygame.quit()
 								sys.exit()
 
-		# continue outer loop -> reinitialize for a new run
+		
 		continue
 
 

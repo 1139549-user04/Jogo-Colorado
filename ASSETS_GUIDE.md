@@ -3,8 +3,8 @@
 ## Estrutura de Pastas
 
 ```
-base/
-└── assets/asset
+assets/
+└── base
     ├── logoInternacional.png              # Sprite do jogador
     ├── ImagemDeFundoDoWindows.jfif        # Fundo fixo do cenário
     └── HINO DO INTERNACIONAL - golaudio.mp3  # Música de fundo e game over
