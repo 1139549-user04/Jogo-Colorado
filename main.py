@@ -11,7 +11,7 @@ FPS = 60
 GROUND_Y = HEIGHT - 70
 
 
-SKY = (135, 206, 235)
+Screen = (135, 206, 235)
 ENEMY_COLOR = (50, 120, 255)  
 ENEMY_HIT_COLOR = (200, 30, 30)  
 
@@ -174,7 +174,7 @@ def main():
 		print(f"⚠️ Arquivo de música não encontrado: {BACKGROUND_MUSIC}")
 
 	def show_start_screen():
-		screen.fill(SKY)
+		screen.fill(screen)
 		title = pygame.font.SysFont(None, 40).render('Pressione qualquer tecla para continuar', True, (30, 30, 30))
 		screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT - 80))
 
@@ -275,7 +275,7 @@ def main():
 		
 		waiting = True
 		while waiting:
-			scr.fill(SKY)
+			scr.fill(screen)
 			title = big.render('TOP 5 RECORDES', True, (30, 30, 30))
 			scr.blit(title, (WIDTH // 2 - title.get_width() // 2, 30))
 			
