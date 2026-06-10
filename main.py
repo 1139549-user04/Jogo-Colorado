@@ -22,7 +22,7 @@ BACKGROUND_MUSIC = os.path.join(ASSETS_BASE, "HINO DO INTERNACIONAL - golaudio.m
 background_image = None
 player_image = pygame.image.load("base/inter.png")
 player_image = pygame.transform.scale(player_image, (130, 100))
-player_image_attack = None  
+
 
 STORY_PARAGRAPHS = [
 	"PRÓLOGO\nApós uma era triste de derrotas não sobrou ninguém para torcer pro Inter...",
