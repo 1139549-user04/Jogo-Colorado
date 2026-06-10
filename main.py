@@ -17,9 +17,8 @@ ENEMY_HIT_COLOR = (200, 30, 30)
 
 
 ASSETS_BASE = "assets/base"
-BACKGROUND_MUSIC = os.path.join(ASSETS_BASE, "HINO DO INTERNACIONAL-golaudio.mp3")
-
-
+BACKGROUND_MUSIC = os.path.join(ASSETS_BASE, "HINO DO INTERNACIONAL - golaudio.mp3")
+ 
 background_image = None
 player_image = pygame.image.load("base/inter.png")
 player_image = pygame.transform.scale(player_image, (130, 100))
