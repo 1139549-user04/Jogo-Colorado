@@ -17,7 +17,7 @@ ENEMY_HIT_COLOR = (200, 30, 30)
 
 
 ASSETS_BASE = "assets/base"
-BACKGROUND_MUSIC = os.path.join(ASSETS_BASE, "HINO DO INTERNACIONAL - golaudio.mp3")
+BACKGROUND_MUSIC = os.path.join(ASSETS_BASE, "audiodefundo.mp3")
  
 background_image = None
 player_image = pygame.image.load("base/inter.png")
@@ -29,7 +29,6 @@ STORY_PARAGRAPHS = [
 	"\nDepois de tanto perder, o Internacional está com apenas 1 torcedor e esse é você. ",
 	"\nNão tem quase nenhum colorado no mundo. Vague pelo mundo, e converta os gremistas."
 ]
-
 
 def load_image(path, width, height):
 	"""Carrega uma imagem e redimensiona para o tamanho especificado"""
@@ -89,7 +88,7 @@ class Player:
 			self.attack_timer -= 1
 
 		return dx
-
+	
 	def draw(self, surf):
 		"""Desenha o jogador. Cinza quando atacando, normal caso contrário"""
 		if self.attack_timer > 0:
@@ -174,7 +173,7 @@ def main():
 		print(f"⚠️ Arquivo de música não encontrado: {BACKGROUND_MUSIC}")
 
 	def show_start_screen():
-		screen.fill(screen)
+		screen.fill(Screen)
 		title = pygame.font.SysFont(None, 40).render('Pressione qualquer tecla para continuar', True, (30, 30, 30))
 		screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT - 80))
 
@@ -275,7 +274,7 @@ def main():
 		
 		waiting = True
 		while waiting:
-			scr.fill(screen)
+			scr.fill(Screen)
 			title = big.render('TOP 5 RECORDES', True, (30, 30, 30))
 			scr.blit(title, (WIDTH // 2 - title.get_width() // 2, 30))
 			
